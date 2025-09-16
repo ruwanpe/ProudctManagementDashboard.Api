@@ -2,7 +2,7 @@
 
 namespace ProudctManagementDashboard.Api.Repository
 {
-    public interface IProduct
+    public interface IProductRepo
     {
         Task<int> RegisterProduct(Product product);
         Task<List<Product>> GetAllProducts();

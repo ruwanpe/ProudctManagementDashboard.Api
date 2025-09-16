@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProudctManagementDashboard.Api.Cache;
 using ProudctManagementDashboard.Api.Helper;
 using ProudctManagementDashboard.Api.Models;
@@ -11,13 +10,15 @@ namespace ProudctManagementDashboard.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProduct _productInterface;
+        private readonly IProductRepo _productRepo;
         private readonly IMemeoryCacheService _memoryCache;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(IProduct productInterface, IMemeoryCacheService memoryCache)
+        public ProductController(IProductRepo productRepo, IMemeoryCacheService memoryCache, ILogger<ProductController> logger)
         {
-            _productInterface = productInterface;
+            _productRepo = productRepo;
             _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -25,11 +26,13 @@ namespace ProudctManagementDashboard.Api.Controllers
         {
             try
             {
-                var response = await _productInterface.RegisterProduct(product);
+                _logger.LogInformation("Adding a new product.");
+                var response = await _productRepo.RegisterProduct(product);
                 return response > 0 ? Ok(response) : BadRequest(response);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while adding a new product.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -39,6 +42,7 @@ namespace ProudctManagementDashboard.Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Fetching all products from cache or database.");
                 List<Product> result = _memoryCache.Get<List<Product>>(CacheKeyEnum.AllProducts.ToString());
 
                 if (result != null && result.Count > 0)
@@ -46,12 +50,13 @@ namespace ProudctManagementDashboard.Api.Controllers
                     return result;
                 }
 
-                result = await _productInterface.GetAllProducts();
+                result = await _productRepo.GetAllProducts();
                 _memoryCache.Set<List<Product>>(CacheKeyEnum.AllProducts.ToString(), result, TimeSpan.FromMinutes(5));
                 return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while fetching all products.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -61,19 +66,21 @@ namespace ProudctManagementDashboard.Api.Controllers
         {
             try
             {
-                string cacheResult = _memoryCache.Get<string>(CacheKeyEnum.ProductsByCategory.ToString());
-                if (!string.IsNullOrEmpty(cacheResult))
+                _logger.LogInformation("Fetching products by category from cache or database.");
+                string result = _memoryCache.Get<string>(CacheKeyEnum.ProductsByCategory.ToString());
+                if (!string.IsNullOrEmpty(result))
                 {
-                    return cacheResult;
+                    return result;
                 }
 
-                string dbResult = await _productInterface.GetAllProductsByCategory();
-                _memoryCache.Set(CacheKeyEnum.ProductsByCategory.ToString(), dbResult, TimeSpan.FromMinutes(5));
+                result = await _productRepo.GetAllProductsByCategory();
+                _memoryCache.Set(CacheKeyEnum.ProductsByCategory.ToString(), result, TimeSpan.FromMinutes(5));
 
-                return dbResult;
+                return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while fetching products by category.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -83,19 +90,21 @@ namespace ProudctManagementDashboard.Api.Controllers
         {
             try
             {
-                string cacheResult = _memoryCache.Get<string>(CacheKeyEnum.ProductsByDurationAdded.ToString());
-                if (!string.IsNullOrEmpty(cacheResult))
+                _logger.LogInformation("Fetching products by duration added from cache or database.");
+                string result = _memoryCache.Get<string>(CacheKeyEnum.ProductsByDurationAdded.ToString());
+                if (!string.IsNullOrEmpty(result))
                 {
-                    return cacheResult;
+                    return result;
                 }
 
-                string dbResult = await _productInterface.GetAllProductsByDurationAdded();
-                _memoryCache.Set(CacheKeyEnum.ProductsByDurationAdded.ToString(), dbResult, TimeSpan.FromMinutes(5));
+                result = await _productRepo.GetAllProductsByDurationAdded();
+                _memoryCache.Set(CacheKeyEnum.ProductsByDurationAdded.ToString(), result, TimeSpan.FromMinutes(5));
 
-                return dbResult;
+                return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while fetching products by duration added.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

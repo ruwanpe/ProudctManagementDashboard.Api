@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace ProudctManagementDashboard.Api.Repository
 {
-    public class ProductRepo(ProductDbContext context) : IProduct
+    public class ProductRepo(ProductDbContext context) : IProductRepo
     {
         public async Task<int> RegisterProduct(Product product)
         {
