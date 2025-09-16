@@ -29,16 +29,17 @@ builder.Services.AddScoped<IProductRepo, ProductRepo>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors(policy =>
-    policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
+app.UseExceptionHandler("/error");
 
+//Allowing and origin for testing purpose.
+app.UseCors(policy =>
+policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();
 

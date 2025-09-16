@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ProudctManagementDashboard.Api.Models;
 
 namespace ProudctManagementDashboard.Api.Data

@@ -1,17 +1,17 @@
-﻿namespace ProductManagementDashboard.UnitTest
-{
-    using Xunit;
-    using Moq;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.AspNetCore.Mvc;
-    using ProudctManagementDashboard.Api.Controllers;
-    using ProudctManagementDashboard.Api.Models;
-    using ProudctManagementDashboard.Api.Repository;
-    using ProudctManagementDashboard.Api.Cache;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System;
+﻿using Xunit;
+using Moq;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using ProudctManagementDashboard.Api.Controllers;
+using ProudctManagementDashboard.Api.Models;
+using ProudctManagementDashboard.Api.Repository;
+using ProudctManagementDashboard.Api.Cache;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
+namespace ProductManagementDashboard.UnitTest
+{
     public class ProductControllerTests
     {
         private readonly Mock<IProductRepo> _productRepoMock;

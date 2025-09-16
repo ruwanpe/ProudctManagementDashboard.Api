@@ -20,7 +20,7 @@ namespace ProudctManagementDashboard.Api.Repository
 
         public async Task<string> GetAllProductsByCategory()
         {
-            var temp = await context.Products
+            var dbResult = await context.Products
                 .GroupBy(p => p.Category)
                 .Select(g => new
                 {
@@ -28,7 +28,7 @@ namespace ProudctManagementDashboard.Api.Repository
                     TotalQuantity = g.Sum(p => p.StockQuantity)
                 }).ToArrayAsync();
 
-            string jsonData = JsonSerializer.Serialize(temp);
+            string jsonData = JsonSerializer.Serialize(dbResult);
 
             return jsonData;
 
@@ -62,6 +62,7 @@ namespace ProudctManagementDashboard.Api.Repository
             };
 
             string jsonData = JsonSerializer.Serialize(result);
+
             return jsonData;
         }
     }
