@@ -1,6 +1,5 @@
 --DELETE FROM Products
 UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Products';
--- Insert 50 realistic Product records with full date and time, distributed across each month from 2025-01-01 to 2025-09-16
 INSERT INTO Products (Category, Name, ProductCode, Price, SKU, StockQuantity, DateAdded) VALUES
 ('Electronics', 'Wireless Mouse', 'ELEC001', 19.99, 'SKU1001', 120, '2025-01-02 08:15:23'),
 ('Electronics', 'Bluetooth Headphones', 'ELEC002', 49.99, 'SKU1002', 80, '2025-01-15 09:22:10'),
