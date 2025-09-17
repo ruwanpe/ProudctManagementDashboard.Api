@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler("/error");
 
-//Allowing and origin for testing purpose.
+//Allowing all origins for testing purpose.
 app.UseCors(policy =>
 policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
 
