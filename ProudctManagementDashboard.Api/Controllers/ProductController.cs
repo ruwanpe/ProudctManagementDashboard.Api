@@ -37,7 +37,7 @@ namespace ProudctManagementDashboard.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<ActionResult<List<Product>>> GetAllProducts()
         {
             try
@@ -61,7 +61,7 @@ namespace ProudctManagementDashboard.Api.Controllers
             }
         }
 
-        [HttpGet("GetAllProductsByCategory")]
+        [HttpGet("AllByCategory")]
         public async Task<ActionResult<string>> GetAllProductsByCategory()
         {
             try
@@ -85,7 +85,7 @@ namespace ProudctManagementDashboard.Api.Controllers
             }
         }
 
-        [HttpGet("GetAllProductsByDurationAdded")]
+        [HttpGet("AllByDurationAdded")]
         public async Task<ActionResult<string>> GetAllProductsByDurationAdded()
         {
             try
